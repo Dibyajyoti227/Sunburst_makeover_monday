@@ -1,0 +1,49 @@
+---
+title: "Sunburst_food_consumption"
+author: "Dibya"
+date: "6/13/2020"
+output: html_document
+---
+
+# libraries
+library(tidyverse)
+# library to create treemap for different levels of Sunburst chart
+library(treemap)
+# Package sunburstR to produce sunburst chart
+library(sunburstR)
+# Library to read excel file
+library(readxl)
+# To change the procperty of the legend to be displayed
+library(htmlwidgets)
+
+# Loading data from desired folder on PC
+my_data <- read_excel("C:/Users/Gabriel/Desktop/MakeOver_monday/Non-meat_eaters_Britain/my_data.xlsx",sheet = "Data")
+
+# Naming the columns of the dataset
+colnames(my_data) <- c("Center_circle","Category", "Frequency", "Consumption_percentage")
+
+
+# Reformat data for the sunburstR package
+ my_data1 <- my_data %>%
+        filter(Center_circle != "") %>%
+        mutate(path = paste(Center_circle, Category, Frequency, sep="-")) %>%
+        dplyr::select(path, Consumption_percentage)
+
+# Colors for the sections
+ colors <- c("#cccccc","#66ff33","#99ff99","#ccffff","#ff9900","#990000","#000066","#0000cc","#3366cc","#6699ff","#99ffff","#cccccc")
+ 
+# Match the colors to labels, matched by index
+ labels <- c("All-consumers","Vegan","Vegetarian","Pescatarian","Flexitarian","Meateater","Daily","Weekly","Monthly","Less often","Never","Do not know")  
+
+# Setting up the sunburst chart by specifying it's property such as height of the chart, legend to be present or not. 
+ sun <- sunburst(my_data1,  colors = list(range = colors, domain = labels), withD3 = T, width = "100%",height = 800, legend=TRUE)
+ 
+# The next section is to change the legend text size in my case. 
+ htmlwidgets::onRender(
+         sun,
+         "
+    function(el, x) {
+    d3.selectAll('.sunburst-legend text').attr('font-size', '12px');
+    }
+    "
+ )
