@@ -1,5 +1,5 @@
 # Sunburst_makeover_monday
-This repository conatins the Rmarkdown and .R files created to visualize the consumption of animal-free products in britain. 
+This repository contains the Rmarkdown and .R files created to visualize the consumption of animal-free products in britain. 
 As a learner, I have started learning various visualization techniques by participating in makeover_monday and this is my week1.
 To see the interactive visualization also visit my page https://rpubs.com/dibyajyoti_12/627663. 
 
